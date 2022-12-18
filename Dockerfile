@@ -40,7 +40,7 @@ RUN cd /build/web-apps   && git apply /build/web-apps.patch
 
 
 COPY server.patch /build/server.patch
-RUN cd /build/server   && git apply /build/server.patch
+RUN cd /build/server   && git apply --ignore-space-change --ignore-whitespace /build/server.patch
 
 
 
