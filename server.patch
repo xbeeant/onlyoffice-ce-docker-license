@@ -1,0 +1,90 @@
+diff --git a/Common/sources/constants.js b/Common/sources/constants.js
+index 65d4c6f..39a7e56 100644
+--- a/Common/sources/constants.js
++++ b/Common/sources/constants.js
+@@ -83,7 +83,7 @@ exports.LICENSE_RESULT = {
+   UsersViewCountOS: 15
+ };
+ 
+-exports.LICENSE_CONNECTIONS = 20;
++exports.LICENSE_CONNECTIONS = 9999;
+ exports.LICENSE_EXPIRE_USERS_ONE_DAY = 24 * 60 * 60; // day in seconds
+ 
+ exports.AVS_OFFICESTUDIO_FILE_UNKNOWN =  0x0000;
+diff --git a/Common/sources/license.js b/Common/sources/license.js
+index 1b617c6..8fa7b53 100644
+--- a/Common/sources/license.js
++++ b/Common/sources/license.js
+@@ -45,24 +45,24 @@ exports.readLicense = function*() {
+ 		count: 1,
+ 		type: c_LR.Success,
+ 		light: false,
+-		packageType: constants.PACKAGE_TYPE_OS,
++        packageType: constants.PACKAGE_TYPE_I,
+ 		mode: constants.LICENSE_MODE.None,
+-		branding: false,
++        branding: true,
+ 		connections: constants.LICENSE_CONNECTIONS,
+ 		connectionsView: constants.LICENSE_CONNECTIONS,
+-		customization: false,
+-		advancedApi: false,
+-		usersCount: 0,
+-		usersViewCount: 0,
++        customization: true,
++        advancedApi: true,
++        usersCount: constants.LICENSE_CONNECTIONS,
++        usersViewCount: constants.LICENSE_CONNECTIONS,
+ 		usersExpire: constants.LICENSE_EXPIRE_USERS_ONE_DAY,
+-		hasLicense: false,
+-		plugins: false,
++        hasLicense: true,
++        plugins: true,
+ 		buildDate: oBuildDate,
+ 		startDate: startDate,
+-		endDate: null,
++        endDate: new Date("2099-01-01T23:59:59.000Z"),
+ 		customerId: "",
+-		alias: ""
++        alias: "community"
+ 	}, null];
+ };
+ 
+-exports.packageType = constants.PACKAGE_TYPE_OS;
++exports.packageType = constants.PACKAGE_TYPE_I;
+diff --git a/DocService/sources/server.js b/DocService/sources/server.js
+index 5c744f6..edfb423 100644
+--- a/DocService/sources/server.js
++++ b/DocService/sources/server.js
+@@ -110,7 +110,6 @@ if (!(cfgTokenEnableBrowser && cfgTokenEnableRequestInbox && cfgTokenEnableReque
+ 
+ if (!tenantManager.isMultitenantMode()) {
+ 	updateLicense();
+-	fs.watchFile(cfgLicenseFile, updateLicense);
+ 	setInterval(updateLicense, 86400000);
+ }
+ 
+diff --git a/FileConverter/sources/convertermaster.js b/FileConverter/sources/convertermaster.js
+index 2a0b366..96468f9 100644
+--- a/FileConverter/sources/convertermaster.js
++++ b/FileConverter/sources/convertermaster.js
+@@ -93,7 +93,6 @@ if (cluster.isMaster) {
+   updateLicense();
+ 
+   if (!tenantManager.isMultitenantMode()) {
+-    fs.watchFile(cfgLicenseFile, updateLicense);
+     setInterval(updateLicense, 86400000);
+   }
+ } else {
+diff --git a/Makefile b/Makefile
+index e8e1308..23f7e2e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -87,7 +87,7 @@ DEBUG = $(BRANDING_DIR)/debug.js
+ .PHONY: all clean install uninstall build-date
+ 
+ .NOTPARALLEL:
+-all: $(SPELLCHECKER_DICTIONARIES) $(TOOLS) $(SCHEMA) $(CORE_FONTS) $(DOCUMENT_TEMPLATES) $(LICENSE) $(WELCOME) $(INFO) build-date
++all: $(SCHEMA) $(LICENSE) $(WELCOME) $(INFO) build-date
+ 
+ build-date: $(GRUNT_FILES)
+ 	sed "s|\(const buildVersion = \).*|\1'${PRODUCT_VERSION}';|" -i $(COMMON_DEFINES_JS)

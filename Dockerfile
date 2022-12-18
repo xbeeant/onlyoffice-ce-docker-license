@@ -13,6 +13,7 @@ ENV BUILD_NUMBER=${build_number}
 
 ARG build_deps="git make g++ nodejs npm"
 RUN apt-get update && apt-get install -y ${build_deps}
+#RUN npm config set registry https://registry.npm.taobao.org
 RUN npm install -g pkg grunt grunt-cli
 
 WORKDIR /build
@@ -36,12 +37,19 @@ FROM clone-stage as path-stage
 # patch
 COPY web-apps.patch /build/web-apps.patch
 RUN cd /build/web-apps   && git apply /build/web-apps.patch
-COPY convertermaster.js /build/server/FileConverter/sources/convertermaster.js
-COPY license.js /build/server/Common/sources/license.js
-COPY Makefile /build/server/Makefile
-COPY server.js /build/server/DocService/sources/server.js
-COPY constants.js /build/server/Common/srouces/constants.js
-COPY tenantManager.js /build/server/Common/srouces/tenantManager.js
+
+
+COPY server.patch /build/server.patch
+RUN cd /build/server   && git apply /build/server.patch
+
+
+
+#COPY convertermaster.js /build/server/FileConverter/sources/convertermaster.js
+#COPY license.js /build/server/Common/sources/license.js
+#COPY Makefile /build/server/Makefile
+#COPY server.js /build/server/DocService/sources/server.js
+#COPY constants.js /build/server/Common/srouces/constants.js
+#COPY tenantManager.js /build/server/Common/srouces/tenantManager.js
 
 ## Build
 FROM path-stage as build-stage
