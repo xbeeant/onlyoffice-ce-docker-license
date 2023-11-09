@@ -1,4 +1,4 @@
-ARG product_version=7.4.1
+ARG product_version=7.5.1
 ARG build_number=1
 ARG oo_root='/var/www/onlyoffice/documentserver'
 
@@ -34,7 +34,7 @@ RUN git clone --quiet --depth 1 https://github.com/ONLYOFFICE/web-apps.git    /b
 ## Build
 FROM clone-stage as path-stage
 
-# patch
+# Patch
 COPY web-apps.patch /build/web-apps.patch
 RUN cd /build/web-apps   && git apply /build/web-apps.patch
 
@@ -42,14 +42,6 @@ RUN cd /build/web-apps   && git apply /build/web-apps.patch
 COPY server.patch /build/server.patch
 RUN cd /build/server   && git apply --ignore-space-change --ignore-whitespace /build/server.patch
 
-
-
-#COPY convertermaster.js /build/server/FileConverter/sources/convertermaster.js
-#COPY license.js /build/server/Common/sources/license.js
-#COPY Makefile /build/server/Makefile
-#COPY server.js /build/server/DocService/sources/server.js
-#COPY constants.js /build/server/Common/srouces/constants.js
-#COPY tenantManager.js /build/server/Common/srouces/tenantManager.js
 
 ## Build
 FROM path-stage as build-stage

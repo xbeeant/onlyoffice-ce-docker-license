@@ -1,5 +1,11 @@
+---
+ apps/documenteditor/mobile/src/lib/patch.jsx     | 2 +-
+ apps/presentationeditor/mobile/src/lib/patch.jsx | 2 +-
+ apps/spreadsheeteditor/mobile/src/lib/patch.jsx  | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
 diff --git a/apps/documenteditor/mobile/src/lib/patch.jsx b/apps/documenteditor/mobile/src/lib/patch.jsx
-index 963aca451..1ee48e856 100644
+index 963aca451c..1ee48e8568 100644
 --- a/apps/documenteditor/mobile/src/lib/patch.jsx
 +++ b/apps/documenteditor/mobile/src/lib/patch.jsx
 @@ -4,7 +4,7 @@ const EditorUIController = () => {
@@ -12,7 +18,7 @@ index 963aca451..1ee48e856 100644
  
  EditorUIController.getToolbarOptions = () => {
 diff --git a/apps/presentationeditor/mobile/src/lib/patch.jsx b/apps/presentationeditor/mobile/src/lib/patch.jsx
-index ec7b37a2c..bfd879583 100644
+index ec7b37a2ce..bfd8795839 100644
 --- a/apps/presentationeditor/mobile/src/lib/patch.jsx
 +++ b/apps/presentationeditor/mobile/src/lib/patch.jsx
 @@ -1,6 +1,6 @@
@@ -24,7 +30,7 @@ index ec7b37a2c..bfd879583 100644
  
  export default EditorUIController;
 diff --git a/apps/spreadsheeteditor/mobile/src/lib/patch.jsx b/apps/spreadsheeteditor/mobile/src/lib/patch.jsx
-index ec7b37a2c..bfd879583 100644
+index ec7b37a2ce..bfd8795839 100644
 --- a/apps/spreadsheeteditor/mobile/src/lib/patch.jsx
 +++ b/apps/spreadsheeteditor/mobile/src/lib/patch.jsx
 @@ -1,6 +1,6 @@

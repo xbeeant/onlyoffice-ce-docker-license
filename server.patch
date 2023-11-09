@@ -1,18 +1,28 @@
+---
+ Common/sources/constants.js              |  4 ++--
+ Common/sources/license.js                | 22 +++++++++++-----------
+ DocService/sources/server.js             |  2 +-
+ FileConverter/sources/convertermaster.js |  2 +-
+ Makefile                                 |  2 +-
+ 5 files changed, 16 insertions(+), 16 deletions(-)
+
 diff --git a/Common/sources/constants.js b/Common/sources/constants.js
-index 8ddfb47..d41c7e6 100644
+index 3e8e7aaa..d79daf0e 100644
 --- a/Common/sources/constants.js
 +++ b/Common/sources/constants.js
-@@ -85,7 +85,7 @@ exports.LICENSE_RESULT = {
+@@ -85,8 +85,8 @@ exports.LICENSE_RESULT = {
    NotBefore: 16
  };
  
 -exports.LICENSE_CONNECTIONS = 20;
+-exports.LICENSE_USERS = 3;
 +exports.LICENSE_CONNECTIONS = 9999;
++exports.LICENSE_USERS = 99;
  exports.LICENSE_EXPIRE_USERS_ONE_DAY = 24 * 60 * 60; // day in seconds
  
  exports.AVS_OFFICESTUDIO_FILE_UNKNOWN =  0x0000;
 diff --git a/Common/sources/license.js b/Common/sources/license.js
-index 5df8d69..3fd9de1 100644
+index 5df8d693..3fd9de14 100644
 --- a/Common/sources/license.js
 +++ b/Common/sources/license.js
 @@ -45,24 +45,24 @@ exports.readLicense = function*() {
@@ -52,33 +62,33 @@ index 5df8d69..3fd9de1 100644
 -exports.packageType = constants.PACKAGE_TYPE_OS;
 +exports.packageType = constants.PACKAGE_TYPE_I;
 diff --git a/DocService/sources/server.js b/DocService/sources/server.js
-index 6828adb..21374a6 100644
+index 76303af9..9d2e6888 100644
 --- a/DocService/sources/server.js
 +++ b/DocService/sources/server.js
-@@ -111,7 +111,7 @@ if (!(cfgTokenEnableBrowser && cfgTokenEnableRequestInbox && cfgTokenEnableReque
- 
- if (!tenantManager.isMultitenantMode()) {
- 	updateLicense();
--	fs.watchFile(cfgLicenseFile, updateLicense);
-+	// fs.watchFile(cfgLicenseFile, updateLicense);
- 	setInterval(updateLicense, 86400000);
+@@ -109,7 +109,7 @@ if (!(cfgTokenEnableBrowser && cfgTokenEnableRequestInbox && cfgTokenEnableReque
  }
  
+ updateLicense();
+-fs.watchFile(cfgLicenseFile, updateLicense);
++// fs.watchFile(cfgLicenseFile, updateLicense);
+ setInterval(updateLicense, 86400000);
+ 
+ if (config.has('services.CoAuthoring.server.static_content')) {
 diff --git a/FileConverter/sources/convertermaster.js b/FileConverter/sources/convertermaster.js
-index e83b71b..bc2ea58 100644
+index 46615032..6ce2d3e6 100644
 --- a/FileConverter/sources/convertermaster.js
 +++ b/FileConverter/sources/convertermaster.js
-@@ -93,7 +93,7 @@ if (cluster.isMaster) {
+@@ -92,7 +92,7 @@ if (cluster.isMaster) {
+ 
    updateLicense();
  
-   if (!tenantManager.isMultitenantMode()) {
--    fs.watchFile(cfgLicenseFile, updateLicense);
-+    // fs.watchFile(cfgLicenseFile, updateLicense);
-     setInterval(updateLicense, 86400000);
-   }
+-  fs.watchFile(cfgLicenseFile, updateLicense);
++  // fs.watchFile(cfgLicenseFile, updateLicense);
+   setInterval(updateLicense, 86400000);
  } else {
+   const converter = require('./converter');
 diff --git a/Makefile b/Makefile
-index e8e1308..23f7e2e 100644
+index e8e1308f..23f7e2ef 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -87,7 +87,7 @@ DEBUG = $(BRANDING_DIR)/debug.js
