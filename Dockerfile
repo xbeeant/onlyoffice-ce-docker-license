@@ -1,4 +1,4 @@
-ARG product_version=7.5.1
+ARG product_version=8.0.1
 ARG build_number=1
 ARG oo_root='/var/www/onlyoffice/documentserver'
 
@@ -11,7 +11,12 @@ ARG oo_root
 ENV PRODUCT_VERSION=${product_version}
 ENV BUILD_NUMBER=${build_number}
 
-ARG build_deps="git make g++ nodejs npm"
+# set up node 14
+ADD setup_14.x /node14
+RUN sudo sh /node14
+
+ARG build_deps="git make g++ nodejs"
+
 RUN apt-get update && apt-get install -y ${build_deps}
 #RUN npm config set registry https://registry.npm.taobao.org
 RUN npm install -g pkg grunt grunt-cli
@@ -61,9 +66,9 @@ RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/FileCon
 RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/DocService --targets=node14-linux --options max_old_space_size=4096 -o /build/docservice
 
 # build web-apps with mobile editing
-WORKDIR /build/web-apps/build
-RUN npm install
-RUN grunt
+#WORKDIR /build/web-apps/build
+#RUN npm install
+#RUN grunt
 
 ## Final image
 FROM onlyoffice/documentserver:${product_version}.${build_number}
@@ -74,6 +79,6 @@ COPY --from=build-stage /build/converter  ${oo_root}/server/FileConverter/conver
 COPY --from=build-stage /build/docservice ${oo_root}/server/DocService/docservice
 
 # Restore mobile editing using an old version of mobile editor
-COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/documenteditor/mobile     ${oo_root}/web-apps/apps/documenteditor/mobile
-COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/presentationeditor/mobile ${oo_root}/web-apps/apps/presentationeditor/mobile
-COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/spreadsheeteditor/mobile  ${oo_root}/web-apps/apps/spreadsheeteditor/mobile
+#COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/documenteditor/mobile     ${oo_root}/web-apps/apps/documenteditor/mobile
+#COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/presentationeditor/mobile ${oo_root}/web-apps/apps/presentationeditor/mobile
+#COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/spreadsheeteditor/mobile  ${oo_root}/web-apps/apps/spreadsheeteditor/mobile
