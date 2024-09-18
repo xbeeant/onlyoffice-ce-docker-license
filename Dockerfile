@@ -1,5 +1,5 @@
-ARG product_version=8.0.1
-ARG build_number=1
+ARG product_version=8.1.3
+ARG build_number=2
 ARG oo_root='/var/www/onlyoffice/documentserver'
 
 ## Setup
@@ -29,8 +29,8 @@ WORKDIR /build
 FROM setup-stage as clone-stage
 ARG tag=v${PRODUCT_VERSION}.${BUILD_NUMBER}
 
-RUN git clone --quiet --branch $tag --depth 1 https://github.com/ONLYOFFICE/build_tools.git /build/build_tools
-RUN git clone --quiet --branch $tag --depth 1 https://github.com/ONLYOFFICE/server.git      /build/server
+RUN git clone --quiet --branch v8.1.3.3 --depth 1 https://github.com/ONLYOFFICE/build_tools.git /build/build_tools
+RUN git clone --quiet --branch v8.1.3.3 --depth 1 https://github.com/ONLYOFFICE/server.git      /build/server
 
 # Working mobile editor
 RUN git clone --quiet --depth 1 https://github.com/ONLYOFFICE/sdkjs.git       /build/sdkjs
@@ -79,6 +79,8 @@ FROM onlyoffice/documentserver:${product_version}.${build_number}
 ARG oo_root
 
 #server
+#COPY --from=build-stage /build/web-apps/vendor/jszip                                   ${oo_root}/web-apps/vendor/jszip
+#COPY --from=build-stage /build/web-apps/vendor/jszip-utils                             ${oo_root}/web-apps/vendor/jszip-utils
 COPY --from=build-stage /build/converter  ${oo_root}/server/FileConverter/converter
 COPY --from=build-stage /build/docservice ${oo_root}/server/DocService/docservice
 

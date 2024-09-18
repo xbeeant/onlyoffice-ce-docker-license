@@ -1,8 +1,8 @@
 diff --git a/Common/sources/constants.js b/Common/sources/constants.js
-index 3e8e7aaa..aad4d05f 100644
+index ffaabaf7..c79c5cb2 100644
 --- a/Common/sources/constants.js
 +++ b/Common/sources/constants.js
-@@ -85,8 +85,8 @@ exports.LICENSE_RESULT = {
+@@ -87,8 +87,8 @@ exports.LICENSE_RESULT = {
    NotBefore: 16
  };
  
@@ -54,20 +54,20 @@ index 5df8d693..3fd9de14 100644
 -exports.packageType = constants.PACKAGE_TYPE_OS;
 +exports.packageType = constants.PACKAGE_TYPE_I;
 diff --git a/DocService/sources/server.js b/DocService/sources/server.js
-index 76303af9..9d2e6888 100644
+index 09c9e3bf..8b5f4948 100644
 --- a/DocService/sources/server.js
 +++ b/DocService/sources/server.js
-@@ -109,7 +109,7 @@ if (!(cfgTokenEnableBrowser && cfgTokenEnableRequestInbox && cfgTokenEnableReque
+@@ -129,7 +129,7 @@ if (!(cfgTokenEnableBrowser && cfgTokenEnableRequestInbox && cfgTokenEnableReque
  }
  
  updateLicense();
 -fs.watchFile(cfgLicenseFile, updateLicense);
-+// fs.watchFile(cfgLicenseFile, updateLicense);
++
  setInterval(updateLicense, 86400000);
  
- if (config.has('services.CoAuthoring.server.static_content')) {
+ try {
 diff --git a/FileConverter/sources/convertermaster.js b/FileConverter/sources/convertermaster.js
-index 46615032..6ce2d3e6 100644
+index 46615032..ef71ae9e 100644
 --- a/FileConverter/sources/convertermaster.js
 +++ b/FileConverter/sources/convertermaster.js
 @@ -92,7 +92,7 @@ if (cluster.isMaster) {
@@ -75,7 +75,7 @@ index 46615032..6ce2d3e6 100644
    updateLicense();
  
 -  fs.watchFile(cfgLicenseFile, updateLicense);
-+  // fs.watchFile(cfgLicenseFile, updateLicense);
++
    setInterval(updateLicense, 86400000);
  } else {
    const converter = require('./converter');
