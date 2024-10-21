@@ -1,5 +1,5 @@
-ARG product_version=8.1.3
-ARG build_number=2
+ARG product_version=8.2.0
+ARG build_number=1
 ARG oo_root='/var/www/onlyoffice/documentserver'
 
 ## Setup
@@ -27,10 +27,10 @@ WORKDIR /build
 
 ## Clone
 FROM setup-stage as clone-stage
-ARG tag=v${PRODUCT_VERSION}.${BUILD_NUMBER}
+ARG tag=v8.2.0.4
 
-RUN git clone --quiet --branch v8.1.3.3 --depth 1 https://github.com/ONLYOFFICE/build_tools.git /build/build_tools
-RUN git clone --quiet --branch v8.1.3.3 --depth 1 https://github.com/ONLYOFFICE/server.git      /build/server
+RUN git clone --quiet --branch $tag --depth 1 https://github.com/ONLYOFFICE/build_tools.git /build/build_tools
+RUN git clone --quiet --branch $tag --depth 1 https://github.com/ONLYOFFICE/server.git      /build/server
 
 # Working mobile editor
 RUN git clone --quiet --depth 1 https://github.com/ONLYOFFICE/sdkjs.git       /build/sdkjs
