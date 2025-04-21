@@ -1,11 +1,8 @@
- Common/sources/license.js | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
 diff --git a/Common/sources/license.js b/Common/sources/license.js
-index 8813cbac..2db51eff 100644
+index d43ee21..8780b98 100644
 --- a/Common/sources/license.js
 +++ b/Common/sources/license.js
-@@ -44,23 +44,23 @@ exports.readLicense = async function () {
+@@ -44,24 +44,24 @@ exports.readLicense = async function () {
  	return [{
  		count: 1,
  		type: c_LR.Success,
@@ -30,18 +27,20 @@ index 8813cbac..2db51eff 100644
 -		endDate: null,
 +		endDate: new Date("2099-01-01T23:59:59.000Z"),
  		customerId: "",
--		alias: ""
-+		alias: "community"
+-		alias: "",
+-		multitenancy: false
++		alias: "community",
++		multitenancy: true
  	}, null];
  };
  
 -exports.packageType = constants.PACKAGE_TYPE_OS;
 +exports.packageType = constants.PACKAGE_TYPE_I;
 diff --git a/DocService/sources/server.js b/DocService/sources/server.js
-index 09c9e3bf..8b5f4948 100644
+index 2053a57..059c9b7 100644
 --- a/DocService/sources/server.js
 +++ b/DocService/sources/server.js
-@@ -129,7 +129,7 @@ if (!(cfgTokenEnableBrowser && cfgTokenEnableRequestInbox && cfgTokenEnableReque
+@@ -124,7 +124,7 @@ if (!(cfgTokenEnableBrowser && cfgTokenEnableRequestInbox && cfgTokenEnableReque
  }
  
  updateLicense();
@@ -51,10 +50,10 @@ index 09c9e3bf..8b5f4948 100644
  
  try {
 diff --git a/FileConverter/sources/convertermaster.js b/FileConverter/sources/convertermaster.js
-index 46615032..ef71ae9e 100644
+index 2209e8c..5aefd42 100644
 --- a/FileConverter/sources/convertermaster.js
 +++ b/FileConverter/sources/convertermaster.js
-@@ -92,7 +92,7 @@ if (cluster.isMaster) {
+@@ -90,7 +90,7 @@ if (cluster.isMaster) {
  
    updateLicense();
  
@@ -64,7 +63,7 @@ index 46615032..ef71ae9e 100644
  } else {
    const converter = require('./converter');
 diff --git a/Makefile b/Makefile
-index e8e1308f..23f7e2ef 100644
+index e8e1308..23f7e2e 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -87,7 +87,7 @@ DEBUG = $(BRANDING_DIR)/debug.js
